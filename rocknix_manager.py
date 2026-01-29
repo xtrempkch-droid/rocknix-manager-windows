@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 
 # rocknix_manager_v7_6.py
 # V7.6 - HOTFIX & STABILITY
 # - Correção de KeyError 'dest_label'.
 # - Correção definitiva do status de rede (Online/Conectado).
 # - Auditoria BIOS Remota (SSH) e Local ativadas.
 # - Configuração de Compressão e Ação em Massa restauradas.
+# - rever configs
 
 import sys, os, shutil, socket, subprocess, hashlib, tempfile, zipfile, time, locale
 from pathlib import Path
