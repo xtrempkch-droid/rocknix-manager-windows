@@ -5,7 +5,7 @@
 # - Correção definitiva do status de rede (Online/Conectado).
 # - Auditoria BIOS Remota (SSH) e Local ativadas.
 # - Configuração de Compressão e Ação em Massa restauradas.
-# - rever configs
+
 
 import sys, os, shutil, socket, subprocess, hashlib, tempfile, zipfile, time, locale
 from pathlib import Path
