@@ -3,44 +3,47 @@ name: Build Windows EXE
 on:
   push:
     tags:
-      - 'v*' # Gatilho correto para Releases
+      - 'v*' # Gatilho para versões (ex: v0.0.9)
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write # ESSENCIAL: Permite anexar o arquivo na Release
+      contents: write # Permissão para o robô escrever na aba de Releases
 
     steps:
-      - name: Checkout Code
+      - name: Checkout do Código
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Instalar Dependências
         run: |
           python -m pip install --upgrade pip
           pip install pyqt5 pyinstaller
 
-      - name: Build with PyInstaller
+      - name: Gerar Executável
         run: |
           pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
-        # Adicionei --name para garantir que o executável tenha um nome fixo
 
-      - name: Verify dist folder
+      - name: Listar Arquivos (Debug)
         shell: pwsh
         run: |
-          Child-Item -Path dist/
-          # Isso vai mostrar no log se o RocknixManager.exe foi criado
+          if (Test-Path "dist/RocknixManager.exe") {
+            Write-Host "Arquivo encontrado com sucesso!"
+            ls dist/
+          } else {
+            Write-Error "O arquivo .exe NÃO foi gerado na pasta dist!"
+            exit 1
+          }
 
-      - name: Upload to Release
+      - name: Publicar na Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: dist/RocknixManager.exe
-          fail_on_unmatched_files: true # Se o arquivo não existir, o build FICA VERMELHO
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
