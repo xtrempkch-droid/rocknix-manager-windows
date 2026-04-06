@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write # Permissão para o robô escrever na aba de Releases
+      contents: write # Permite anexar o arquivo na Release
 
     steps:
       - name: Checkout do Código
@@ -29,14 +29,14 @@ jobs:
         run: |
           pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
 
-      - name: Listar Arquivos (Debug)
+      - name: Verificar se o arquivo existe
         shell: pwsh
         run: |
           if (Test-Path "dist/RocknixManager.exe") {
-            Write-Host "Arquivo encontrado com sucesso!"
+            Write-Host "Sucesso: Arquivo gerado!"
             ls dist/
           } else {
-            Write-Error "O arquivo .exe NÃO foi gerado na pasta dist!"
+            Write-Error "Erro: O arquivo .exe nao foi encontrado!"
             exit 1
           }
 
