@@ -29,7 +29,7 @@ except ImportError:
 # ----------------------------------------------------------------------
 TRANSLATIONS = {
     "pt_BR": {
-        "app_name": "Rocknix Manager V7.6 - Estável",
+        "app_name": "Rocknix Manager",
         "mode_title": "Modo de Operação",
         "net_mode": "Rede (Rocknix)",
         "local_mode": "Local (SD/Pasta)",
@@ -101,7 +101,7 @@ TRANSLATIONS = {
         "save": "Save"
     },
     "es_ES": {
-        "app_name": "Rocknix Manager V7.6 - Estable",
+        "app_name": "Rocknix Manager",
         "mode_title": "Modo de Operación",
         "net_mode": "Red (Rocknix)",
         "local_mode": "Local (SD/Carpeta)",
@@ -137,7 +137,7 @@ TRANSLATIONS = {
         "save": "Guardar"
     },
     "fr_FR": {
-        "app_name": "Rocknix Manager V7.6 - Stable",
+        "app_name": "Rocknix Manager",
         "mode_title": "Mode de Fonctionnement",
         "net_mode": "Réseau (Rocknix)",
         "local_mode": "Local (SD/Dossier)",
@@ -173,7 +173,7 @@ TRANSLATIONS = {
         "save": "Enregistrer"
     },
     "de_DE": {
-        "app_name": "Rocknix Manager V7.6 - Stabil",
+        "app_name": "Rocknix Manager",
         "mode_title": "Betriebsmodus",
         "net_mode": "Netzwerk (Rocknix)",
         "local_mode": "Lokal (SD/Ordner)",
