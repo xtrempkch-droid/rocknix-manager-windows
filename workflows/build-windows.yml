@@ -3,14 +3,13 @@ name: Build Windows
 on:
   push:
     tags:
-      - 'v*' # Isso fará o robô rodar toda vez que você criar uma tag (ex: v1.0.1)
-  workflow_dispatch: # Isso permite que você rode o build manualmente se quiser
+      - 'v*' # O robô só ativa quando crias uma tag (ex: v1.0.3)
 
 jobs:
   build-windows:
     runs-on: windows-latest
-    permissions: # Garante que o robô tenha permissão para postar a release
-      contents: write
+    permissions:
+      contents: write # Permite que o robô anexe o ficheiro na Release
 
     steps:
       - uses: actions/checkout@v4
@@ -32,7 +31,6 @@ jobs:
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            dist/*.exe
+          files: dist/*.exe # Procura o executável na pasta correta
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
