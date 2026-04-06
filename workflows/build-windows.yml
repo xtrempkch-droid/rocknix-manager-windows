@@ -3,13 +3,13 @@ name: Build Windows
 on:
   push:
     tags:
-      - 'v*' # Ativa quando você cria uma versão (ex: v1.0.4)
+      - 'v*' # Dispara apenas em versões (v1.0.3, v1.0.4...)
 
 jobs:
-  build-windows:
+  build:
     runs-on: windows-latest
     permissions:
-      contents: write # Permissão extra direto no código
+      contents: write # Garante o direito de postar na Release
 
     steps:
       - uses: actions/checkout@v4
@@ -25,17 +25,11 @@ jobs:
           pip install pyqt5 pyinstaller
 
       - name: Build exe
-        run: |
-          pyinstaller --onefile --windowed rocknix_manager.py
+        run: pyinstaller --onefile --windowed rocknix_manager.py
 
-      - name: Check files (Debug)
-        run: |
-          ls dist/ # Isso vai listar o que tem na pasta dist no log do GitHub
-
-      - name: Upload Release Asset
+      - name: Publish Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: dist/*.exe
+          files: dist/*.exe # Pega qualquer .exe que o PyInstaller criou
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
