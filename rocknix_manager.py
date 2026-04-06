@@ -1,11 +1,10 @@
-#!/usr/bin/env python3 
+#!/usr/bin/env python3
 # rocknix_manager_v7_6.py
 # V7.6 - HOTFIX & STABILITY
 # - Correção de KeyError 'dest_label'.
 # - Correção definitiva do status de rede (Online/Conectado).
 # - Auditoria BIOS Remota (SSH) e Local ativadas.
 # - Configuração de Compressão e Ação em Massa restauradas.
-
 
 import sys, os, shutil, socket, subprocess, hashlib, tempfile, zipfile, time, locale
 from pathlib import Path
@@ -65,7 +64,7 @@ TRANSLATIONS = {
         "save": "Salvar"
     },
     "en_US": {
-        "app_name": "Rocknix Manager V7.6 - Stable",
+        "app_name": "Rocknix Manager",
         "mode_title": "Operating Mode",
         "net_mode": "Network (Rocknix)",
         "local_mode": "Local (SD/Folder)",
@@ -243,12 +242,22 @@ ALL_EXTENSIONS = [
 
 BIOS_DATABASE = {
 
+    # --- NINTENDO SWITCH ---
+    'prod.keys': {'md5': 'f80693a749969f16802613d9f957582b', 'sys': 'Switch (Keys)'},
+    'title.keys': {'md5': 'various', 'sys': 'Switch (Keys)'}, 
+    
+    # --- XBOX CLASSIC ---
+    'mcpx_1.0.bin': {'md5': 'd49c634426543f0579e0998f498c17b5', 'sys': 'Xbox (MCPX)'},
+    'Complex_4627v1.03.bin': {'md5': '17385f0995a96d195c69993e36e4f3a9', 'sys': 'Xbox (BIOS)'},
+
     # --- SONY ---
     'scph5500.bin': {'md5': '8dd7d5296a650fac7319bce665a6a53c', 'sys': 'PS1 (JP)', 'desc': 'Obrigatória para jogos JP'},
     'scph5501.bin': {'md5': '490f666e1afb15b7362b406ed1cea246', 'sys': 'PS1 (US)', 'desc': 'Obrigatória para jogos US'},
     'scph5502.bin': {'md5': '32736f17079d0b2b7024407c39ad3050', 'sys': 'PS1 (EU)', 'desc': 'Obrigatória para jogos EU'},
     'psxonpsp660.bin': {'md5': 'c53ca5908936d412331790f4426c6c33', 'sys': 'PS1 (PSP)', 'desc': 'Melhor performance (DuckStation)'},
     'scph39001.bin': {'md5': 'd5ce2c7d119f563ce04bc04dbc3a323e', 'sys': 'PS2 (US)', 'desc': 'Compatível PCSX2/Play!'},
+    'EROM.BIN': {'md5': 'various', 'sys': 'PS2 (EROM)'},
+
     
     # --- SEGA ---
     'bios_CD_U.bin': {'md5': '2efd743390ffad365a45330c6a463c61', 'sys': 'Sega CD (US)', 'desc': 'Modelo 1 v1.10'},
