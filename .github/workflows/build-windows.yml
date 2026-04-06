@@ -3,13 +3,13 @@ name: Build Windows EXE
 on:
   push:
     tags:
-      - 'v*' # Gatilho para versões (ex: v0.0.9)
+      - 'v*' # Dispara em v0.0.9, v0.1.0, etc.
 
 jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: write # Permite anexar o arquivo na Release
+      contents: write # Permite anexar na Release
 
     steps:
       - name: Checkout do Código
@@ -28,15 +28,16 @@ jobs:
       - name: Gerar Executável
         run: |
           pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
+        # O parâmetro --name garante que o nome seja RocknixManager.exe
 
-      - name: Verificar se o arquivo existe
+      - name: Verificar Arquivo
         shell: pwsh
         run: |
           if (Test-Path "dist/RocknixManager.exe") {
-            Write-Host "Sucesso: Arquivo gerado!"
+            Write-Host "Sucesso: O executável foi criado!"
             ls dist/
           } else {
-            Write-Error "Erro: O arquivo .exe nao foi encontrado!"
+            Write-Error "Erro: O PyInstaller não gerou o arquivo!"
             exit 1
           }
 
