@@ -3,7 +3,7 @@ name: Build Windows
 on:
   push:
     tags:
-      - 'v*' # Coerente com o que você decidiu
+      - 'v*' # Garante que o robô só trabalhe em versões oficiais
 
 jobs:
   build:
@@ -27,10 +27,13 @@ jobs:
       - name: Build exe
         run: pyinstaller --onefile --windowed rocknix_manager.py
 
+      - name: Verify Build
+        run: dir dist  # Comando Windows para listar a pasta. Se não listar o .exe, o erro é aqui!
+
       - name: Publish Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/*.exe
-          fail_on_unmatched_files: true
+          fail_on_unmatched_files: true # FORÇA o erro se o arquivo sumir
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
