@@ -1,0 +1,35 @@
+name: Build EXE and Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Dispara quando você cria uma tag como v1.0, v1.1, etc.
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' # Ajuste para a sua versão
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        if (Test-Path requirements.txt) { pip install -r requirements.txt }
+
+    - name: Build EXE
+      run: pyinstaller --onefile --windowed main.py # Substitua main.py pelo seu arquivo principal
+
+    - name: Upload Release Asset
+      uses: softprops/action-gh-release@v2
+      with:
+        files: dist/main.exe # O caminho onde o PyInstaller gera o executável
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
