@@ -3,7 +3,7 @@ name: Build Windows EXE
 on:
   push:
     tags:
-      - 'v*' # Dispara quando cria uma tag (ex: v7.6.1)
+      - 'v*'
 
 jobs:
   build:
@@ -24,7 +24,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install PyQt6 pyqtdarktheme paramiko requests pyinstaller
-        # Adicionei paramiko (para o seu SSH) e qdarktheme (para o tema)
 
       - name: Build
         run: |
