@@ -1,4 +1,5 @@
-pyqt6
+PyQt6
+opencv-python
 pyinstaller
 paramiko
 cryptography
