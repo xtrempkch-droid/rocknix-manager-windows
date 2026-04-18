@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+env:
+  # Optando pelo Node 24 agora para evitar avisos de depreciação
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: windows-latest
@@ -13,6 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
+        # Mantendo v4, mas forçando o uso do Node 24 via env global
         uses: actions/checkout@v4
 
       - name: Python Setup
