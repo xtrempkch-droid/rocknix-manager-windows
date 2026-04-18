@@ -707,6 +707,6 @@ if __name__ == "__main__":
     if qdarktheme:
         qdarktheme.setup_theme("auto")
     
-    win = RocknixManager()
+    win = RocknixGui()
     win.show()
     sys.exit(app.exec())
