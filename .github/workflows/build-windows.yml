@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Resolve o alerta de depreciação do Node.js
+
 jobs:
   build:
     runs-on: windows-latest
@@ -24,7 +27,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --windowed --collect-all cv2 --collect-all PyQt6 --hidden-import PyQt6.sip rocknix_manager.py
+        pyinstaller --onefile --windowed --collect-all cv2 --collect-all PyQt6 rocknix_manager.py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
