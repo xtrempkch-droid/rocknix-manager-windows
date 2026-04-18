@@ -1,50 +1,33 @@
-name: Build Windows EXE
+name: Build Windows Executable
 
 on:
   push:
-    tags:
-      - 'v*' # Dispara em v0.0.9, v0.1.0, etc.
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
-    permissions:
-      contents: write # Permite anexar na Release
 
     steps:
-      - name: Checkout do Código
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
 
-      - name: Instalar Dependências
-        run: |
-          python -m pip install --upgrade pip
-         pip install PyQt6 opencv-python pyinstaller  # Adicione PyQt6 aqui explicitamente
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyQt6 opencv-python pyinstaller
 
-      - name: Gerar Executável
-        run: |
-           pyinstaller --onefile --windowed --collect-all cv2 --hidden-import PyQt6 rocknix_manager.py
-        # O parâmetro --name garante que o nome seja RocknixManager.exe
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --windowed --collect-all cv2 --collect-all PyQt6 --hidden-import PyQt6.sip rocknix_manager.py
 
-      - name: Verificar Arquivo
-        shell: pwsh
-        run: |
-          if (Test-Path "dist/RocknixManager.exe") {
-            Write-Host "Sucesso: O executável foi criado!"
-            ls dist/
-          } else {
-            Write-Error "Erro: O PyInstaller não gerou o arquivo!"
-            exit 1
-          }
-
-      - name: Publicar na Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/RocknixManager.exe
-          fail_on_unmatched_files: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: rocknix-manager-windows
+        path: dist/*.exe
