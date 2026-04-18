@@ -1,36 +1,50 @@
-name: Build Windows Executable
+name: Build Windows EXE
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # Resolve o alerta de depreciação do Node.js
+    tags:
+      - 'v*' # Dispara em v0.0.9, v0.1.0, etc.
 
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write # Permite anexar na Release
 
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout do Código
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install PyQt6 pyqtdarktheme requests pyinstaller paramiko
+      - name: Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyqt5 pyinstaller
 
-    - name: Build with PyInstaller
-      run: |
-        pyinstaller --onefile --windowed --collect-all cv2 --collect-all darkdetect rocknix_manager.py
+      - name: Gerar Executável
+        run: |
+          pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
+        # O parâmetro --name garante que o nome seja RocknixManager.exe
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: rocknix-manager-windows
-        path: dist/*.exe
+      - name: Verificar Arquivo
+        shell: pwsh
+        run: |
+          if (Test-Path "dist/RocknixManager.exe") {
+            Write-Host "Sucesso: O executável foi criado!"
+            ls dist/
+          } else {
+            Write-Error "Erro: O PyInstaller não gerou o arquivo!"
+            exit 1
+          }
+
+      - name: Publicar na Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/RocknixManager.exe
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
