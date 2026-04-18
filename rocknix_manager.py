@@ -6,7 +6,7 @@
 # - Auditoria BIOS Remota (SSH) e Local ativadas.
 # - Configuração de Compressão e Ação em Massa restauradas.
 
-import sys, os, shutil, socket, subprocess, hashlib, tempfile, zipfile, time, locale
+import sys, os, shutil, socket, subprocess, hashlib, tempfile, zipfile, time, locale, qdarktheme
 from pathlib import Path
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QFileDialog, QMessageBox,
@@ -22,6 +22,7 @@ try:
     import paramiko
 except ImportError:
     paramiko = None
+    qdarktheme = None
 
 # ----------------------------------------------------------------------
 # 1. TRADUÇÕES E DADOS (CORRIGIDO)
@@ -700,4 +701,12 @@ class RocknixGui(QMainWindow):
         QMessageBox.information(self, "BIOS", "Enviando BIOS...")
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv); gui = RocknixGui(); gui.show(); sys.exit(app.exec())
+    app = QApplication(sys.argv)
+    
+    # Aplica o tema automático se a biblioteca estiver instalada
+    if qdarktheme:
+        qdarktheme.setup_theme("auto")
+    
+    win = RocknixManager()
+    win.show()
+    sys.exit(app.exec())
