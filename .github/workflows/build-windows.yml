@@ -27,7 +27,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --windowed --collect-all cv2 --collect-all PyQt6 rocknix_manager.py
+        pyinstaller --onefile --windowed --collect-all cv2 --collect-all darkdetect rocknix_manager.py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
