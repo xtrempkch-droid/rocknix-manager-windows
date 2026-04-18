@@ -31,16 +31,6 @@ jobs:
           pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
 
       - name: Publish Release
-              shell: pwsh
-        run: |
-          if (Test-Path "dist/RocknixManager.exe") {
-            Write-Host "Sucesso: O executável foi criado!"
-            ls dist/
-          } else {
-            Write-Error "Erro: O PyInstaller não gerou o arquivo!"
-            exit 1
-          }
-      - name: Publicar na Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/RocknixManager.exe
