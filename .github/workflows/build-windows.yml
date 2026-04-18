@@ -23,11 +23,11 @@ jobs:
       - name: Instalar Dependências
         run: |
           python -m pip install --upgrade pip
-          pip install pyqt5 pyinstaller
+         pip install PyQt6 opencv-python pyinstaller  # Adicione PyQt6 aqui explicitamente
 
       - name: Gerar Executável
         run: |
-          pyinstaller --onefile --windowed --name "RocknixManager" rocknix_manager.py
+           pyinstaller --onefile --windowed --collect-all cv2 --hidden-import PyQt6 rocknix_manager.py
         # O parâmetro --name garante que o nome seja RocknixManager.exe
 
       - name: Verificar Arquivo
