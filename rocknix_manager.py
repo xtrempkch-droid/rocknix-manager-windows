@@ -703,10 +703,21 @@ class RocknixGui(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    # Aplica o tema automático se a biblioteca estiver instalada
-    if qdarktheme:
+    # Suporte ao tema automático (se você adicionou a biblioteca)
+    try:
+        import qdarktheme
         qdarktheme.setup_theme("auto")
+    except ImportError:
+        pass
+
+    # VERIFIQUE AQUI: O nome da variável após 'class' deve ser igual aqui
+    # Se sua classe for 'class Rocknix_Manager_V7_6(QMainWindow):', 
+    # você deve usar: win = Rocknix_Manager_V7_6()
     
-    win = RocknixGui()
-    win.show()
-    sys.exit(app.exec())
+    try:
+        win = RocknixGui() 
+        win.show()
+        sys.exit(app.exec())
+    except NameError:
+        # Caso você tenha renomeado a classe para algo como Rocknix_Manager_V7_6
+        print("Erro: O nome da classe no final do arquivo não bate com a definição.")
